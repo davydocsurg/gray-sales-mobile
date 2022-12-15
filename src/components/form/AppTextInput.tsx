@@ -1,4 +1,5 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconComp from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import React from 'react';
 import { TextInputProps } from 'react-native';
@@ -14,14 +15,22 @@ interface Props extends TextInputProps {
 const AppTextInput: React.FC<Props> = ({ icon, width = '100%', ...rest }) => {
   return (
     <View style={[styles.container, { width }]}>
-      {icon && (
-        <Icon
-          name={icon}
-          size={20}
-          color={defaultStyles.colors.medium}
-          style={styles.icon}
-        />
-      )}
+      {icon &&
+        ((
+          <Icon
+            name={icon}
+            size={20}
+            color={defaultStyles.colors.medium}
+            style={styles.icon}
+          />
+        ) || (
+          <IconComp
+            name={icon}
+            size={20}
+            color={defaultStyles.colors.medium}
+            style={styles.icon}
+          />
+        ))}
       <TextInput
         placeholderTextColor={defaultStyles.colors.medium}
         style={defaultStyles.text}

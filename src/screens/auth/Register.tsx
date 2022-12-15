@@ -4,21 +4,31 @@ import { Screen } from 'react-native-screens';
 import * as Yup from 'yup';
 
 import { LoadingIndicator } from '../../components';
-import { AppForm, AppFormField, SubmitButton } from '../../components/form';
+import {
+  AppForm as Form,
+  AppFormField as FormField,
+  SubmitButton,
+} from '../../components/form';
 import routes from '../../navigation/routes';
 import { LoginFields } from '../../types';
 import colors from '../../utils/colors';
 
 const validationSchema = Yup.object().shape({
+  name: Yup.string().required().min(3).label('Name'),
+  // lastName: Yup.string().required().min(3).label("Last Name"),
   email: Yup.string().required().email().label('Email'),
   password: Yup.string().required().min(8).label('Password'),
+  passwordConfirmation: Yup.string()
+    .required()
+    .min(8)
+    .label('Confirm Password'),
 });
 
-const Login = ({ navigation }: any) => {
+const Register = ({ navigation }: any) => {
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const handleSubmit = async (values: LoginFields, { resetForm }: any) => {
+  const handleSubmit = async (values: Object, { resetForm }: any) => {
     setProgress(1);
     // handleLogin(values);
 
@@ -40,17 +50,34 @@ const Login = ({ navigation }: any) => {
       <LoadingIndicator visible={false} />
       <ScrollView>
         <Screen style={styles.container}>
+          <LoadingIndicator visible={false} />
+
           <Image
             style={styles.logo}
             source={require('../../assets/images/logo-orange.png')}
           />
-          <AppForm
-            initialValues={{ email: '', password: '' }}
-            onSubmit={(values: LoginFields, formikBag: Object) =>
+
+          <Form
+            initialValues={{
+              name: '',
+              email: '',
+              password: '',
+              passwordConfirmation: '',
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values: Object, formikBag: Object) =>
               handleSubmit(values, formikBag)
-            }
-            validationSchema={validationSchema}>
-            <AppFormField
+            }>
+            <FormField
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="user"
+              keyboardType="default"
+              name="name"
+              placeholder="Name"
+            />
+
+            <FormField
               autoCapitalize="none"
               autoCorrect={false}
               icon="user"
@@ -60,7 +87,7 @@ const Login = ({ navigation }: any) => {
               textContentType="emailAddress"
             />
 
-            <AppFormField
+            <FormField
               autoCapitalize="none"
               autoCorrect={false}
               icon="lock"
@@ -70,15 +97,25 @@ const Login = ({ navigation }: any) => {
               textContentType="password"
             />
 
-            <SubmitButton color={colors.orange} title="Login" />
-          </AppForm>
+            <FormField
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="lock"
+              name="passwordConfirmation"
+              placeholder="Confirm Password"
+              secureTextEntry
+              textContentType="password"
+            />
+
+            <SubmitButton color={colors.orange} title="register" />
+          </Form>
 
           <Text style={styles.registerMsg}>
-            <Text>Don't have an account? </Text>
+            <Text>Already have an account? </Text>
             <Text
-              onPress={() => navigation.navigate(routes.REGISTER)}
+              onPress={() => navigation.navigate(routes.LOGIN)}
               style={styles.registerLink}>
-              Register
+              Login
             </Text>
           </Text>
         </Screen>
@@ -112,4 +149,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;

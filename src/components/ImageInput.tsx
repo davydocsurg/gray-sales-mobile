@@ -48,7 +48,7 @@ const ImageInput = ({
   const selectImage = async () => {
     try {
       const result = await launchImageLibrary({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaType: MediaTypeOptions.Images,
         allowsEditing: false,
         // aspect: [4, 3],
         quality: 1,
