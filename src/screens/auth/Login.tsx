@@ -36,57 +36,59 @@ const Login = ({ navigation }: any) => {
   };
 
   return (
-    <Screen style={styles.container}>
-      {/* <LoadingIndicator visible={authUser.loading} /> */}
-
-      <Image
-        style={styles.logo}
-        source={require('../../assets/images/logo-orange.png')}
-      />
-      <AppForm
-        initialValues={{ email: '', password: '' }}
-        onSubmit={(values: LoginFields, formikBag: Object) =>
-          handleSubmit(values, formikBag)
-        }
-        validationSchema={validationSchema}>
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="user"
-          keyboardType="email-address"
-          name="email"
-          placeholder="Email"
-          textContentType="emailAddress"
+    <>
+      <LoadingIndicator visible={false} />
+      <Screen style={styles.container}>
+        <Image
+          style={styles.logo}
+          source={require('../../assets/images/logo-orange.png')}
         />
+        <AppForm
+          initialValues={{ email: '', password: '' }}
+          onSubmit={(values: LoginFields, formikBag: Object) =>
+            handleSubmit(values, formikBag)
+          }
+          validationSchema={validationSchema}>
+          <AppFormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="user"
+            keyboardType="email-address"
+            name="email"
+            placeholder="Email"
+            textContentType="emailAddress"
+          />
 
-        <AppFormField
-          autoCapitalize="none"
-          autoCorrect={false}
-          icon="lock"
-          name="password"
-          placeholder="Password"
-          secureTextEntry
-          textContentType="password"
-        />
+          <AppFormField
+            autoCapitalize="none"
+            autoCorrect={false}
+            icon="lock"
+            name="password"
+            placeholder="Password"
+            secureTextEntry
+            textContentType="password"
+          />
 
-        <SubmitButton color={colors.orange} title="Login" />
-      </AppForm>
+          <SubmitButton color={colors.orange} title="Login" />
+        </AppForm>
 
-      <Text style={styles.registerMsg}>
-        <Text>Don't have an account? </Text>
-        <Text
-          onPress={() => navigation.navigate(routes.REGISTER)}
-          style={styles.registerLink}>
-          Register
+        <Text style={styles.registerMsg}>
+          <Text>Don't have an account? </Text>
+          <Text
+            onPress={() => navigation.navigate(routes.REGISTER)}
+            style={styles.registerLink}>
+            Register
+          </Text>
         </Text>
-      </Text>
-    </Screen>
+      </Screen>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+    zIndex: 1,
   },
   logo: {
     width: 80,
