@@ -41,7 +41,7 @@ const Login = ({ navigation }: any) => {
 
       <Image
         style={styles.logo}
-        source={require('../../assets/images/logo.png')}
+        source={require('../../assets/images/logo-orange.png')}
       />
       <AppForm
         initialValues={{ email: '', password: '' }}
@@ -52,7 +52,7 @@ const Login = ({ navigation }: any) => {
         <AppFormField
           autoCapitalize="none"
           autoCorrect={false}
-          icon="email"
+          icon="user"
           keyboardType="email-address"
           name="email"
           placeholder="Email"
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   registerMsg: {
+    color: colors.dark,
     marginTop: 12,
     marginLeft: 'auto',
     marginRight: 'auto',
