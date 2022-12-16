@@ -46,11 +46,12 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     flexDirection: 'row',
     width: '100%',
-    padding: 13,
+    padding: Platform.OS === 'android' ? 5 : 13,
     marginVertical: 10,
   },
   icon: {
-    marginRight: 10,
+    marginLeft: 10,
+    marginRight: 7,
     marginTop: Platform.OS === 'android' ? 13 : 3,
   },
 });

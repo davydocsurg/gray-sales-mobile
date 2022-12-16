@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text } from 'react-native';
 import { Screen } from 'react-native-screens';
 import * as Yup from 'yup';
 
 import { LoadingIndicator } from '../../components';
 import { AppForm, AppFormField, SubmitButton } from '../../components/form';
+import { useAuthContext } from '../../contexts/AuthContext';
 import routes from '../../navigation/routes';
 import { LoginFields } from '../../types';
 import colors from '../../utils/colors';
@@ -15,24 +16,25 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login = ({ navigation }: any) => {
+  const { authUser, handleLogin } = useAuthContext();
   const [uploadVisible, setUploadVisible] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const handleSubmit = async (values: LoginFields, { resetForm }: any) => {
     setProgress(1);
-    // handleLogin(values);
+    handleLogin(values);
 
-    // if (authUser.errors) {
-    //   return Alert.alert(`${authUser?.errors}`);
-    // }
+    if (authUser.errors) {
+      return Alert.alert(`${authUser?.errors}`);
+    }
 
-    // if (authUser.isLoggedIn) {
-    //   setUploadVisible(true);
-    //   // setTimeout(() => {
-    //   //     navigation.navigate(routes.FEED);
-    //   // }, 6000);
-    // }
-    // return resetForm();
+    if (authUser.isLoggedIn) {
+      setUploadVisible(true);
+      // setTimeout(() => {
+      //     navigation.navigate(routes.FEED);
+      // }, 6000);
+    }
+    return resetForm();
   };
 
   return (
