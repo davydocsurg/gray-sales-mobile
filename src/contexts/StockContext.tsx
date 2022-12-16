@@ -12,12 +12,16 @@ import type { StockType } from '../types';
 type StockContextType = {
   stocks: StockType[];
   stocksCount: number;
+  errors: any[];
+  fetching: boolean;
   handleFetchStocks: () => void;
 };
 
 const StockContext = createContext<StockContextType>({
   stocks: [],
   stocksCount: 0,
+  errors: [],
+  fetching: false,
   handleFetchStocks: () => {},
 });
 
@@ -26,20 +30,26 @@ export const StockProvider: React.FC = ({
 }: React.EmbedHTMLAttributes<any>) => {
   const [stocks, setStocks] = useState<StockType[] | any>();
   const [stocksCount, setStocksCount] = useState(0);
+  const [errors, setErrors] = useState([]);
+  const [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
-    handleFetchStocks();
+  //   useEffect(() => {
+  //     handleFetchStocks();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //     // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   }, []);
 
   const handleFetchStocks = useCallback(async () => {
     try {
+      setFetching(true);
       const response = await api.get(endPoints.stocks);
       setStocks(response.data?.data?.stocks);
       setStocksCount(response.data?.data?.stocksCount);
-    } catch (error: unknown) {
+      setFetching(false);
+    } catch (error: any) {
+      setFetching(false);
       console.error(error);
+      setErrors(error);
     }
   }, []);
 
@@ -48,6 +58,8 @@ export const StockProvider: React.FC = ({
       value={{
         stocks,
         stocksCount,
+        errors,
+        fetching,
         handleFetchStocks,
       }}>
       {children}
