@@ -1,5 +1,5 @@
 import { Message } from './message';
-import { initialStockType, StockContextType } from './stocks';
+import { initialStockType, StockContextType, StockType } from './stocks';
 import { LoginProps } from './form';
 import { initialCategoryType, CategoryContextType } from './categories';
 import {
@@ -9,6 +9,7 @@ import {
   LoginFields,
   ProfileUpdateFields,
   AuthStockDetails,
+  RegisterFields,
 } from './auth';
 
 export type {
@@ -24,6 +25,8 @@ export type {
   LoginFields,
   ProfileUpdateFields,
   AuthStockDetails,
+  RegisterFields,
+  StockType,
 };
 
 export type RootTabParamList = {

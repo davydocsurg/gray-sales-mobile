@@ -22,15 +22,19 @@ const Login = ({ navigation }: any) => {
   const handleSubmit = async (values: LoginFields, { resetForm }: any) => {
     handleLogin(values);
     setLoading(true);
-    console.info(authUser.loading, 'loading');
 
     if (authUser.errors.length > 0) {
-      //   console.error(authUser.errors);
+      setLoading(false);
+      console.log('error');
 
-      return Alert.alert(`${authUser?.errors}`);
+      return Alert.alert(`${authUser.errors}`);
     }
+    setLoading(false);
+    console.log(authUser);
 
     if (authUser.isLoggedIn) {
+      console.log(authUser.isLoggedIn);
+
       // setTimeout(() => {
       //     navigation.navigate(routes.FEED);
       // }, 6000);

@@ -13,16 +13,19 @@ import type {
   initialAuthType,
   LoginFields,
   ProfileUpdateFields,
+  RegisterFields,
 } from '../types';
 
 type AuthContextType = {
   authUser: initialAuthType;
   authUserStocks: any[];
+  registered: boolean;
   handleLogin: (fields: LoginFields) => void;
   handleLogout: () => void;
   handleFetchAuthUserData: () => void;
   handleFetchAuthUserStocks: () => void;
   handleProfileUpdate: (fields: ProfileUpdateFields) => void;
+  handleRegister: (fields: RegisterFields) => void;
   // handleDeleteMood: (mood: MoodOptionWithTimestamp) => void;
 };
 
@@ -93,12 +96,14 @@ const AuthContext = createContext<AuthContextType>({
     user: userFields,
     stocks: [],
   },
+  registered: false,
   authUserStocks: [],
   handleLogin: () => {},
   handleLogout: () => {},
   handleFetchAuthUserData: () => {},
   handleProfileUpdate: () => {},
   handleFetchAuthUserStocks: () => {},
+  handleRegister: () => {},
 });
 
 export const AuthProvider: React.FC = ({
@@ -113,22 +118,20 @@ export const AuthProvider: React.FC = ({
     stocks: [],
   });
 
+  const [registered, setRegistered] = useState(false);
+
   const [authUserStocks, setAuthUserStocks] = useState([]);
 
   useEffect(() => {
     getAuthTokenFromStorage();
-    // console.log(authUser.isLoggedIn);
+    console.log(authUser.isLoggedIn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getAuthTokenFromStorage = async () => {
     const token = await getAuthToken();
     if (token) {
       setIsLoggedIn(true);
-
-      setAuthUser({
-        ...authUser,
-        isLoggedIn: true,
-      });
     }
   };
 
@@ -162,10 +165,33 @@ export const AuthProvider: React.FC = ({
     });
   };
 
-  const handleLogin = useCallback(async (fields: LoginFields) => {
+  const handleRegister = useCallback(async (fields: RegisterFields) => {
     try {
       setLoading(true);
       setErrors([]);
+      const response = await api.post(endPoints.register, {
+        name: fields.name,
+        email: fields.email,
+        password: fields.password,
+        passwordConfirmation: fields.passwordConfirmation,
+      });
+
+      if (response.data?.success === false) {
+        return setErrors(response.data?.message);
+      }
+
+      return setRegistered(response.data?.success);
+    } catch (error: Object | any) {
+      console.error(error?.content);
+      setErrors(error?.content);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleLogin = useCallback(async (fields: LoginFields) => {
+    try {
+      setErrors([]);
+      setLoading(true);
       const response = await api.post(endPoints.login, {
         email: fields.email,
         password: fields.password,
@@ -185,17 +211,19 @@ export const AuthProvider: React.FC = ({
       console.error(error?.content);
       setErrors(error?.content);
     }
-    // eslint
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <AuthContext.Provider
       value={{
         authUser,
+        registered,
         authUserStocks,
         handleLogin,
         // handleLogout,
         handleFetchAuthUserData,
+        handleRegister,
         // handleProfileUpdate,
         // handleFetchAuthUserStocks,
       }}>

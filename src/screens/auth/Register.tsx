@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text } from 'react-native';
 import { Screen } from 'react-native-screens';
 import * as Yup from 'yup';
 
@@ -9,8 +9,9 @@ import {
   AppFormField as FormField,
   SubmitButton,
 } from '../../components/form';
+import { useAuthContext } from '../../contexts/AuthContext';
 import routes from '../../navigation/routes';
-import { LoginFields } from '../../types';
+import { LoginFields, RegisterFields } from '../../types';
 import colors from '../../utils/colors';
 
 const validationSchema = Yup.object().shape({
@@ -25,29 +26,30 @@ const validationSchema = Yup.object().shape({
 });
 
 const Register = ({ navigation }: any) => {
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const { authUser, registered, handleRegister } = useAuthContext();
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async (values: Object, { resetForm }: any) => {
-    setProgress(1);
-    // handleLogin(values);
+  const handleSubmit = async (values: RegisterFields, { resetForm }: any) => {
+    setSubmitting(true);
+    handleRegister(values);
 
-    // if (authUser.errors) {
-    //   return Alert.alert(`${authUser?.errors}`);
-    // }
+    if (authUser.errors.length > 0) {
+      setSubmitting(false);
+      return Alert.alert(`${authUser?.errors}`);
+    }
 
-    // if (authUser.isLoggedIn) {
-    //   setUploadVisible(true);
-    //   // setTimeout(() => {
-    //   //     navigation.navigate(routes.FEED);
-    //   // }, 6000);
-    // }
-    // return resetForm();
+    if (registered) {
+      setSubmitting(false);
+      setTimeout(() => {
+        navigation.navigate(routes.LOGIN);
+      }, 6000);
+    }
+    return resetForm();
   };
 
   return (
     <>
-      <LoadingIndicator visible={false} />
+      <LoadingIndicator visible={submitting} />
       <ScrollView>
         <Screen style={styles.container}>
           <LoadingIndicator visible={false} />
@@ -65,7 +67,7 @@ const Register = ({ navigation }: any) => {
               passwordConfirmation: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={(values: Object, formikBag: Object) =>
+            onSubmit={(values: RegisterFields, formikBag: Object) =>
               handleSubmit(values, formikBag)
             }>
             <FormField
@@ -127,7 +129,7 @@ const Register = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    zIndex: 1,
+    // zIndex: 1,
   },
   logo: {
     width: 80,
