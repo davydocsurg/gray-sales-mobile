@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, SafeAreaView, FlatList } from 'react-native';
 import { Screen } from 'react-native-screens';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { BASE_URL } from '../../api/constants';
 import { AppButton } from '../../commons';
 import AppText from '../../commons/AppText';
@@ -56,6 +56,8 @@ const Stocks = ({ navigation }: any) => {
           <FlatList
             data={stocks}
             keyExtractor={stock => stock?._id.toString()}
+            // columnWrapperStyle={{ flexWrap: 'wrap', flexDirection: 'row' }}
+            numColumns={2}
             renderItem={({ item }: any) => (
               <Card
                 title={item?.title}
@@ -84,6 +86,7 @@ const styles = StyleSheet.create({
   },
   screen: {
     paddingHorizontal: 10,
+    paddingTop: 7,
     backgroundColor: colors.gray,
   },
 

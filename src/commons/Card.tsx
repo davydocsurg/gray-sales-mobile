@@ -4,6 +4,7 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
   Image,
+  ScrollView,
 } from 'react-native';
 
 import colors from '../utils/colors';
@@ -21,6 +22,8 @@ export default function Card({
   onPress?: any;
 }) {
   return (
+    // <ScrollView ref={scrollView} horizontal>
+    // <View style={styles.container}>
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
         <Image
@@ -34,22 +37,28 @@ export default function Card({
         </View>
       </View>
     </TouchableWithoutFeedback>
+    // </View>
+    // </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    // padding: 10,
+    // marginHorizontal: 10,
+    marginRight: 5,
     overflow: 'hidden',
     borderRadius: 15,
     backgroundColor: colors.white,
     marginBottom: 20,
+    height: 110,
+    width: '48%',
+    // flexBasis: '50%',
   },
 
   image: {
     borderRadius: 10,
     width: '100%',
-    height: 200,
+    height: 100,
   },
 
   description: {
@@ -59,5 +68,10 @@ const styles = StyleSheet.create({
 
   detailsContainer: {
     padding: 20,
+  },
+  container: {
+    // display: 'flex',
+    // flexWrap: 'wrap',
+    // flexDirection: 'row',
   },
 });
