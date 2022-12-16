@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
+import { AuthProvider } from './contexts/AuthContext';
 import { AppNavigator } from './navigation';
 
 const App = () => {
@@ -10,7 +11,9 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <AppNavigator />
+      <AuthProvider>
+        <AppNavigator />
+      </AuthProvider>
     </NavigationContainer>
   );
 };

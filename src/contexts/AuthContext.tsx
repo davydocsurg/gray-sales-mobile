@@ -1,6 +1,5 @@
-import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
+import React, {
   createContext,
   useCallback,
   useContext,
@@ -10,8 +9,6 @@ import {
 import api from '../api';
 import { endPoints } from '../api/endPoints';
 import type {
-  AuthStateType,
-  AuthStockDetails,
   AuthUserDetails,
   initialAuthType,
   LoginFields,
@@ -29,10 +26,6 @@ type AuthContextType = {
   // handleDeleteMood: (mood: MoodOptionWithTimestamp) => void;
 };
 
-// type AuthUserType = {
-//   authUser: initialAuthType;
-// };
-
 const authUserKey = 'auth-user';
 const authTokenKey = 'auth-token';
 
@@ -49,21 +42,6 @@ const userFields = {
   updatedAt: '',
   verificationStatus: '',
 };
-
-const stockFields = [
-  {
-    _id: '',
-    _v: 0,
-    createdAt: '',
-    updatedAt: '',
-    price: 0,
-    title: '',
-    description: '',
-    images: [],
-    categoryId: '',
-    user: 'string',
-  },
-];
 
 const setAuthUserData = async (authUser: initialAuthType): Promise<void> => {
   try {
@@ -140,42 +118,17 @@ export const AuthProvider: React.FC = ({
   useEffect(() => {
     getAuthTokenFromStorage();
     // console.log(authUser.isLoggedIn);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleLogin = useCallback(async (fields: LoginFields) => {
-    try {
-      setLoading(true);
-      setErrors([]);
-      const response = await api.post(endPoints.login, {
-        email: fields.email,
-        password: fields.password,
-      });
-
-      if (response.data?.success === false) {
-        return setErrors(response.data?.message);
-      }
-
-      await setAuthToken(response.data?.token);
-      console.log(response.data);
-
-      await setAuthUserData(response.data?.user);
+  const getAuthTokenFromStorage = async () => {
+    const token = await getAuthToken();
+    if (token) {
       setIsLoggedIn(true);
-      setLoading(false);
-    } catch (error: Object | any) {
-      console.error(error?.content);
-      setErrors(error?.content);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  const handleLogout = async () => {
-    try {
-      await AsyncStorage.removeItem(authTokenKey);
-      setIsLoggedIn(false);
-    } catch (error: Object | any) {
-      console.error(error);
-      setErrors(error);
+      setAuthUser({
+        ...authUser,
+        isLoggedIn: true,
+      });
     }
   };
 
@@ -200,18 +153,6 @@ export const AuthProvider: React.FC = ({
     });
   };
 
-  const getAuthTokenFromStorage = async () => {
-    const token = await getAuthToken();
-    if (token) {
-      setIsLoggedIn(true);
-
-      setAuthUser({
-        ...authUser,
-        isLoggedIn: true,
-      });
-    }
-  };
-
   const handleFetchAuthUserData = async () => {
     const authUserData = await getAuthUserData();
 
@@ -221,83 +162,31 @@ export const AuthProvider: React.FC = ({
     });
   };
 
-  const setProfileUpdate = (payload: string) => {
-    setAuthUser({
-      ...authUser,
-      profileUpdateSuccess: payload,
-    });
-  };
-
-  const handleSetAuthUserStocks = (payload: []) => {
-    setAuthUser({
-      ...authUser,
-      stocks: payload,
-    });
-  };
-
-  const handleProfileUpdate = useCallback(
-    async (values: ProfileUpdateFields) => {
-      try {
-        setLoading(true);
-        setErrors(null);
-        const data = new FormData();
-        // console.log(values.profilePhoto, "log");
-
-        const photo: any = {
-          uri: values.profilePhoto[0].uri,
-          name: values.profilePhoto[0].name,
-          type: values.profilePhoto[0].type,
-        };
-        data.append('name', values.name);
-        data.append('email', values.email);
-        data.append('photo', photo);
-
-        let authUserLocal = await AsyncStorage.getItem(authUserKey);
-        authUserLocal = JSON.parse(authUserLocal!);
-        console.log(authUserLocal?._id, 'direct');
-        // handleFetchAuthUserData();
-        // console.log(authUser.user._id, "id");
-
-        const response = await api.put(
-          endPoints.updateProfile + authUserLocal?._id,
-          data,
-          {
-            headers: { 'Content-Type': 'multipart/form-data' },
-          },
-        );
-
-        if (response.data?.success) {
-          await setAuthUserData(response.data?.data?.updatedData);
-          // setProfileUpdate("updated");
-          console.log(authUser);
-
-          return response.data?.success;
-        }
-        setLoading(false);
-      } catch (error: unknown) {
-        setErrors(error);
-        console.error(authUser.errors);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
-
-  const handleFetchAuthUserStocks = async () => {
+  const handleLogin = useCallback(async (fields: LoginFields) => {
     try {
       setLoading(true);
-      const response = await api.get(endPoints.authUser);
-      // console.log(response.data.data.authUserStocks);
+      setErrors([]);
+      const response = await api.post(endPoints.login, {
+        email: fields.email,
+        password: fields.password,
+      });
 
-      setAuthUserStocks(response.data.data.authUserStocks);
+      if (response.data?.success === false) {
+        return setErrors(response.data?.message);
+      }
 
+      await setAuthToken(response.data?.token);
+      // console.log(response.data);
+
+      await setAuthUserData(response.data?.user);
+      setIsLoggedIn(true);
       setLoading(false);
-    } catch (error: unknown) {
-      setLoading(false);
-      setErrors(error);
-      console.error(error);
+    } catch (error: Object | any) {
+      console.error(error?.content);
+      setErrors(error?.content);
     }
-  };
+    // eslint
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -305,10 +194,10 @@ export const AuthProvider: React.FC = ({
         authUser,
         authUserStocks,
         handleLogin,
-        handleLogout,
+        // handleLogout,
         handleFetchAuthUserData,
-        handleProfileUpdate,
-        handleFetchAuthUserStocks,
+        // handleProfileUpdate,
+        // handleFetchAuthUserStocks,
       }}>
       {children}
     </AuthContext.Provider>

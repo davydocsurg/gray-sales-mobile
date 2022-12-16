@@ -17,29 +17,32 @@ const validationSchema = Yup.object().shape({
 
 const Login = ({ navigation }: any) => {
   const { authUser, handleLogin } = useAuthContext();
-  const [uploadVisible, setUploadVisible] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values: LoginFields, { resetForm }: any) => {
-    setProgress(1);
     handleLogin(values);
+    setLoading(true);
+    console.info(authUser.loading, 'loading');
 
-    if (authUser.errors) {
+    if (authUser.errors.length > 0) {
+      //   console.error(authUser.errors);
+
       return Alert.alert(`${authUser?.errors}`);
     }
 
     if (authUser.isLoggedIn) {
-      setUploadVisible(true);
       // setTimeout(() => {
       //     navigation.navigate(routes.FEED);
       // }, 6000);
     }
-    return resetForm();
+    // console.log(authUser.user);
+
+    // return resetForm();
   };
 
   return (
     <>
-      <LoadingIndicator visible={false} />
+      <LoadingIndicator visible={loading} />
       <ScrollView>
         <Screen style={styles.container}>
           <Image
