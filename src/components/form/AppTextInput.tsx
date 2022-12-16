@@ -2,7 +2,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IconComp from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import React from 'react';
-import { TextInputProps } from 'react-native';
+import { Platform, TextInputProps } from 'react-native';
 import { View, StyleSheet, TextInput } from 'react-native';
 
 import defaultStyles from '../../utils/styles';
@@ -42,7 +42,7 @@ const AppTextInput: React.FC<Props> = ({ icon, width = '100%', ...rest }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.colors.light,
+    backgroundColor: defaultStyles.colors.white,
     borderRadius: 25,
     flexDirection: 'row',
     width: '100%',
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
-    marginTop: 13,
+    marginTop: Platform.OS === 'android' ? 13 : 3,
   },
 });
 
