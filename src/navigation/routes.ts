@@ -1,6 +1,6 @@
 export default Object.freeze({
   FEED: 'Feed',
-  LISTING_DETAILS: 'ListingDetails',
+  STOCK_DETAILS: 'Stock Details',
   LISTING_EDIT: 'ListingsEdit',
   LOGIN: 'Login',
   MESSAGES: 'Messages',
