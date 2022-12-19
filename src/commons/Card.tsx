@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: colors.white,
     marginBottom: 20,
-    height: 110,
+    // height: 150,
     width: '48%',
     // flexBasis: '50%',
   },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 10,
     width: '100%',
-    height: 100,
+    height: 90,
   },
 
   description: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
 
   detailsContainer: {
-    padding: 20,
+    padding: 10,
   },
   container: {
     // display: 'flex',

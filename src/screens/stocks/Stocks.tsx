@@ -65,9 +65,7 @@ const Stocks = ({ navigation }: any) => {
                 imageUrl={{
                   uri: BASE_URL + item?.images[0].path,
                 }}
-                onPress={() =>
-                  navigation.navigate(routes.LISTING_DETAILS, item)
-                }
+                onPress={() => navigation.navigate(routes.STOCK_DETAILS, item)}
               />
             )}
             // refreshing={getListingsApi.loading}

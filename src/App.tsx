@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import SplashScreen from 'react-native-splash-screen';
 import { AuthProvider } from './contexts/AuthContext';
+import { CategoryProvider } from './contexts/CategoryContext';
 import { StockProvider } from './contexts/StockContext';
 import { AppNavigator } from './navigation';
 
@@ -13,9 +14,11 @@ const App = () => {
   return (
     <AuthProvider>
       <StockProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
+        <CategoryProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </CategoryProvider>
       </StockProvider>
     </AuthProvider>
   );

@@ -24,9 +24,9 @@ const AppNavigator = () => {
     return (
       <Tabs.Navigator
         screenOptions={({ route }) => ({
-          tabBarActiveTintColor: colors.gray,
+          tabBarActiveTintColor: colors.orange,
           // headerTitleStyle: { fontFamily: theme.fontFamilyBold },
-          tabBarInactiveTintColor: colors.orange,
+          tabBarInactiveTintColor: colors.brown,
           tabBarIcon: ({ color, size }) => {
             if (route.name === 'Feed') {
               return <HomeIcon color={color} size={size} />;
