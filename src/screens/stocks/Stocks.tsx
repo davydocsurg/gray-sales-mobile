@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, SafeAreaView, FlatList } from 'react-native';
 import { Screen } from 'react-native-screens';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// locals
 import { BASE_URL } from '../../api/constants';
 import { AppButton } from '../../commons';
 import AppText from '../../commons/AppText';
@@ -23,7 +25,7 @@ const Stocks = ({ navigation }: any) => {
   if (errors.length > 0) {
     return (
       <Screen style={styles.error}>
-        <AppText>Couldn't fetch listings.</AppText>
+        <AppText>Couldn't fetch stocks.</AppText>
         <AppButton
           title="Retry"
           color={colors.orange}

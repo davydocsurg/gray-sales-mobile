@@ -84,7 +84,7 @@ const ImageInput = ({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     // borderRadius: ,
     // height: 100,
     justifyContent: 'center',

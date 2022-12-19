@@ -13,6 +13,7 @@ import defaultStyles from '../utils/styles';
 import AppText from '../commons/AppText';
 import Screen from './Screen';
 import PickerItem from './PickerItem';
+import colors from '../utils/colors';
 
 const Picker = ({
   icon,
@@ -76,14 +77,15 @@ const Picker = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.colors.light,
+    backgroundColor: defaultStyles.colors.white,
     borderRadius: 25,
     flexDirection: 'row',
-    padding: 15,
+    padding: 19,
     marginVertical: 10,
   },
   icon: {
     marginRight: 10,
+    color: colors.gray,
   },
   text: {
     flex: 1,

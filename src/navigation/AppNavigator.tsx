@@ -2,9 +2,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect } from 'react';
 import { AccountIcon, CreateStockIcon, HomeIcon } from '../assets/icons';
 import { useAuthContext } from '../contexts/AuthContext';
+import { AddStock, Stocks } from '../screens/stocks';
 import { RootTabParamList } from '../types';
 import colors from '../utils/colors';
 import AuthNavigator from './AuthNavigator';
+import CreateStockButton from './CreateStockButton';
 import StockNavigator from './StockNavigator';
 
 const Tabs = createBottomTabNavigator<RootTabParamList>();
@@ -50,6 +52,23 @@ const AppNavigator = () => {
             headerShown: false,
             title: 'Feed',
           }}
+        />
+
+        <Tabs.Screen
+          name="CreateStock"
+          component={AddStock}
+          options={
+            // ({ headerShown: false, title: 'Create Stock' },
+            ({ navigation }) => ({
+              // headerShown: false,
+              title: 'Create Stock',
+              tabBarButton: () => (
+                <CreateStockButton
+                  onPress={() => navigation.navigate('CreateStock')}
+                />
+              ),
+            })
+          }
         />
       </Tabs.Navigator>
     );
