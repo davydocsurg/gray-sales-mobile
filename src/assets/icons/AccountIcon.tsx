@@ -4,7 +4,7 @@ import { IconProps } from '.';
 
 const AccountIcon: React.FC<IconProps> = ({ color = 'teal', size = 40 }) => {
   return (
-    <Svg width={size} height={40} viewBox="0 1 511 511.999" fill={color}>
+    <Svg width={size} height={40} color={color} viewBox="0 1 511 511.999">
       <Path
         data-name="Path 217"
         d="M15 0a8 8 0 1 0 8 8 8 8 0 0 0-8-8Zm0 2a6 6 0 1 1-6 6 6 6 0 0 1 6-6Z"

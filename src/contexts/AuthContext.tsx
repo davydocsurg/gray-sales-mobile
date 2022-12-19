@@ -78,6 +78,7 @@ const setAuthToken = async (token: string): Promise<void> => {
 const getAuthToken = async (): Promise<string | null> => {
   try {
     const result = await AsyncStorage.getItem(authTokenKey);
+
     if (result) {
       return result;
     }
@@ -124,12 +125,15 @@ export const AuthProvider: React.FC = ({
 
   useEffect(() => {
     getAuthTokenFromStorage();
-    console.log(authUser.isLoggedIn);
+
+    console.log(authUser.isLoggedIn, 'authUser.isLoggedIn');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getAuthTokenFromStorage = async () => {
     const token = await getAuthToken();
+    console.log(token, 'token');
+
     if (token) {
       setIsLoggedIn(true);
     }
@@ -214,6 +218,18 @@ export const AuthProvider: React.FC = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      console.log('logout');
+
+      await AsyncStorage.removeItem(authTokenKey);
+      setIsLoggedIn(false);
+    } catch (error: Object | any) {
+      console.error(error);
+      setErrors(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -221,7 +237,7 @@ export const AuthProvider: React.FC = ({
         registered,
         authUserStocks,
         handleLogin,
-        // handleLogout,
+        handleLogout,
         handleFetchAuthUserData,
         handleRegister,
         // handleProfileUpdate,

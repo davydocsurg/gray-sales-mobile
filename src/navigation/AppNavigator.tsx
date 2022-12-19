@@ -1,10 +1,14 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect } from 'react';
-import { AccountIcon, CreateStockIcon, HomeIcon } from '../assets/icons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+// locals
+import { CreateStockIcon, HomeIcon } from '../assets/icons';
 import { useAuthContext } from '../contexts/AuthContext';
-import { AddStock, Stocks } from '../screens/stocks';
+import { AddStock } from '../screens/stocks';
 import { RootTabParamList } from '../types';
 import colors from '../utils/colors';
+import AccountNavigator from './AccountNavigator';
 import AuthNavigator from './AuthNavigator';
 import CreateStockButton from './CreateStockButton';
 import StockNavigator from './StockNavigator';
@@ -18,9 +22,10 @@ const AppNavigator = () => {
     console.log('====================================');
     console.log(authUser.isLoggedIn);
     console.log('====================================');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (authUser.isLoggedIn) {
+  if (!authUser.isLoggedIn) {
     return <AuthNavigator />;
   } else {
     return (
@@ -39,7 +44,7 @@ const AppNavigator = () => {
             }
 
             if (route.name === 'Account') {
-              return <AccountIcon color={color} size={size} />;
+              return <Icon name="account-outline" size={size} color={color} />;
             }
 
             return null;
@@ -69,6 +74,15 @@ const AppNavigator = () => {
               ),
             })
           }
+        />
+
+        <Tabs.Screen
+          name="Account"
+          component={AccountNavigator}
+          options={{
+            headerShown: false,
+            headerTitle: 'Account Settings',
+          }}
         />
       </Tabs.Navigator>
     );
