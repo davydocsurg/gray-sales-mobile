@@ -9,14 +9,19 @@ import { BASE_URL } from '../../api/constants';
 import { AppButton } from '../../commons';
 import AppText from '../../commons/AppText';
 import Card from '../../commons/Card';
-import { LoadingIndicator } from '../../components';
+import { LoadingIndicator, NoStocks } from '../../components';
 import { useStockContext } from '../../contexts/StockContext';
 import routes from '../../navigation/routes';
 import colors from '../../utils/colors';
 
 const Stocks = ({ navigation }: any) => {
-  const { stocks, errors, handleFetchStocks, stocksCount, fetching } =
-    useStockContext();
+  const {
+    stocks,
+    errors,
+    handleFetchStocks,
+    stocksCount,
+    fetching = true,
+  } = useStockContext();
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -35,24 +40,14 @@ const Stocks = ({ navigation }: any) => {
         />
       </Screen>
     );
-  } else if (fetching) {
+  } else if (fetching === true) {
     return (
       <Screen style={styles.animation}>
         <LoadingIndicator visible={fetching} />
       </Screen>
     );
   } else if (stocks?.length < 1 || stocks === undefined) {
-    return (
-      <Screen style={styles.emptyStockContainer}>
-        <Icon
-          name="flask-empty-minus-outline"
-          size={60}
-          color={colors.orange}
-          style={styles.emptyIcon}
-        />
-        <Text style={styles.emptyStock}>No Stocks found!</Text>
-      </Screen>
-    );
+    return <NoStocks />;
   } else {
     return (
       <SafeAreaView>
@@ -103,22 +98,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 480,
-  },
-
-  emptyStockContainer: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-
-  emptyStock: {
-    color: colors.brown,
-    alignSelf: 'center',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-
-  emptyIcon: {
-    alignSelf: 'center',
   },
 });
 

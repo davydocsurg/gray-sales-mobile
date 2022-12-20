@@ -161,13 +161,32 @@ export const AuthProvider: React.FC = ({
   };
 
   const handleFetchAuthUserData = async () => {
-    const authUserData = await getAuthUserData();
+    try {
+      const authUserData = await getAuthUserData();
 
-    setAuthUser({
-      ...authUser,
-      user: authUserData,
-    });
+      setAuthUser({
+        ...authUser,
+        user: authUserData,
+      });
+    } catch (error: Object | any) {
+      console.error(error);
+    }
     // console.log(authUser.user, 'authUser state');
+  };
+
+  const handleFetchAuthUserStocks = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get(endPoints.authUser);
+
+      setAuthUserStocks(response.data?.data?.authUserStocks);
+
+      setLoading(false);
+    } catch (error: unknown) {
+      setLoading(false);
+      setErrors(error);
+      console.error(error);
+    }
   };
 
   const handleRegister = useCallback(async (fields: RegisterFields) => {
@@ -242,7 +261,7 @@ export const AuthProvider: React.FC = ({
         handleFetchAuthUserData,
         handleRegister,
         // handleProfileUpdate,
-        // handleFetchAuthUserStocks,
+        handleFetchAuthUserStocks,
       }}>
       {children}
     </AuthContext.Provider>
