@@ -1,3 +1,3 @@
-import Account from './Account';
+import AccountSetting from './AccountSetting';
 
-export { Account };
+export { AccountSetting };

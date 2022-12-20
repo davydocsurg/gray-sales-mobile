@@ -20,8 +20,9 @@ const Login = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values: LoginFields, { resetForm }: any) => {
-    handleLogin(values);
     setLoading(true);
+
+    handleLogin(values);
 
     if (authUser.errors.length > 0) {
       setLoading(false);
@@ -30,18 +31,10 @@ const Login = ({ navigation }: any) => {
       return Alert.alert(`${authUser.errors}`);
     }
     setLoading(false);
-    console.log(authUser);
 
-    if (authUser.isLoggedIn) {
-      console.log(authUser.isLoggedIn);
+    navigation.navigate(routes.FEED);
 
-      // setTimeout(() => {
-      //     navigation.navigate(routes.FEED);
-      // }, 6000);
-    }
-    // console.log(authUser.user);
-
-    // return resetForm();
+    return resetForm();
   };
 
   return (

@@ -132,7 +132,7 @@ export const AuthProvider: React.FC = ({
 
   const getAuthTokenFromStorage = async () => {
     const token = await getAuthToken();
-    console.log(token, 'token');
+    // console.log(token, 'token');
 
     if (token) {
       setIsLoggedIn(true);
@@ -167,6 +167,7 @@ export const AuthProvider: React.FC = ({
       ...authUser,
       user: authUserData,
     });
+    // console.log(authUser.user, 'authUser state');
   };
 
   const handleRegister = useCallback(async (fields: RegisterFields) => {

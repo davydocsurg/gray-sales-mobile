@@ -1,13 +1,13 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { Account } from '../screens/profile';
+import { AccountSetting } from '../screens/profile';
 
 const Stack = createStackNavigator();
 
 const AccountNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Account" component={Account} />
+      <Stack.Screen name="Account Setting" component={AccountSetting} />
     </Stack.Navigator>
   );
 };
