@@ -9,11 +9,20 @@ import colors from '../../utils/colors';
 
 const StockDetails = ({ route }: any) => {
   const stock = route.params;
-  const { stockOwner, stocksCount, handleFetchStockOwner } = useStockContext();
+  const {
+    stockOwner,
+    stocksCount,
+    handleFetchStockOwner,
+    handleFetchUserStocks,
+  } = useStockContext();
   const isFocused = useIsFocused();
 
   useEffect(() => {
     handleFetchStockOwner(stock?.user);
+    handleFetchUserStocks(stock?.user);
+    console.log('stockcount', stocksCount);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused === true]);
 
   return (
@@ -32,9 +41,7 @@ const StockDetails = ({ route }: any) => {
             uri: BASE_URL + stockOwner?.photo.replace('public', ''),
           }}
           title={stockOwner?.name!}
-          subTitle={`${stocksCount!} ${
-            +stocksCount! > 1 ? 'listings' : 'listing'
-          }`}
+          subTitle={`${stocksCount!} ${+stocksCount! > 1 ? 'stocks' : 'stock'}`}
           // borderRadius={2}
         />
       </View>

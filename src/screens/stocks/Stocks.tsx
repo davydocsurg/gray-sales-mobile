@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { View, StyleSheet, Text, SafeAreaView, FlatList } from 'react-native';
 import { Screen } from 'react-native-screens';
@@ -16,11 +17,12 @@ import colors from '../../utils/colors';
 const Stocks = ({ navigation }: any) => {
   const { stocks, errors, handleFetchStocks, stocksCount, fetching } =
     useStockContext();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     handleFetchStocks();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isFocused === true]);
 
   if (errors.length > 0) {
     return (

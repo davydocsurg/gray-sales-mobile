@@ -17,6 +17,7 @@ type StockContextType = {
   stockOwner: AuthUserDetails | undefined;
   handleFetchStocks: () => void;
   handleFetchStockOwner: (id: any) => void;
+  handleFetchUserStocks: (id: any) => void;
 };
 
 const StockContext = createContext<StockContextType>({
@@ -39,6 +40,7 @@ const StockContext = createContext<StockContextType>({
   },
   handleFetchStocks: () => {},
   handleFetchStockOwner: (id: any) => {},
+  handleFetchUserStocks: (id: any) => {},
 });
 
 export const StockProvider: React.FC = ({
@@ -61,10 +63,24 @@ export const StockProvider: React.FC = ({
       setFetching(true);
       const response = await api.get(endPoints.stocks);
       setStocks(response.data?.data?.stocks);
-      setStocksCount(response.data?.data?.stocksCount);
+
       setFetching(false);
     } catch (error: any) {
       setFetching(false);
+      console.error(error);
+      setErrors(error);
+    }
+  }, []);
+
+  const handleFetchUserStocks = useCallback(async (id: any) => {
+    try {
+      console.log(id, 'id');
+
+      const response = await api.get(endPoints.userStocks + id, id);
+      console.log(response.data?.data?.userStocksCount, 'user stocks');
+
+      setStocksCount(response.data?.data?.userStocksCount);
+    } catch (error: any) {
       console.error(error);
       setErrors(error);
     }
@@ -90,6 +106,7 @@ export const StockProvider: React.FC = ({
         stockOwner,
         handleFetchStocks,
         handleFetchStockOwner,
+        handleFetchUserStocks,
       }}>
       {children}
     </StockContext.Provider>

@@ -11,4 +11,5 @@ export const endPoints = {
   createStock: '/stock/create',
   fetchCategories: '/category/fetch',
   authUser: '/auth-user',
+  userStocks: '/stock/user/',
 };

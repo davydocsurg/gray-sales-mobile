@@ -32,9 +32,9 @@ const Login = ({ navigation }: any) => {
     }
     setLoading(false);
 
-    navigation.navigate(routes.FEED);
+    resetForm();
 
-    return resetForm();
+    return navigation.navigate(routes.FEED);
   };
 
   return (
