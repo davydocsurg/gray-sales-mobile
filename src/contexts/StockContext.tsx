@@ -74,10 +74,8 @@ export const StockProvider: React.FC = ({
 
   const handleFetchUserStocks = useCallback(async (id: any) => {
     try {
-      console.log(id, 'id');
-
       const response = await api.get(endPoints.userStocks + id, id);
-      console.log(response.data?.data?.userStocksCount, 'user stocks');
+      // console.log(response.data?.data?.userStocksCount, 'user stocks');
 
       setStocksCount(response.data?.data?.userStocksCount);
     } catch (error: any) {

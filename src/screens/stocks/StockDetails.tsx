@@ -20,7 +20,6 @@ const StockDetails = ({ route }: any) => {
   useEffect(() => {
     handleFetchStockOwner(stock?.user);
     handleFetchUserStocks(stock?.user);
-    console.log('stockcount', stocksCount);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused === true]);
