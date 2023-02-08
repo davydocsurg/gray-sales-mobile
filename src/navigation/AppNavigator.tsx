@@ -18,13 +18,6 @@ const Tabs = createBottomTabNavigator<RootTabParamList>();
 const AppNavigator = () => {
   const { authUser } = useAuthContext();
 
-  useEffect(() => {
-    console.log('====================================');
-    console.log(authUser.isLoggedIn);
-    console.log('====================================');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (!authUser.isLoggedIn) {
     return <AuthNavigator />;
   } else {
@@ -32,7 +25,6 @@ const AppNavigator = () => {
       <Tabs.Navigator
         screenOptions={({ route }) => ({
           tabBarActiveTintColor: colors.orange,
-          // headerTitleStyle: { fontFamily: theme.fontFamilyBold },
           tabBarInactiveTintColor: colors.brown,
           tabBarIcon: ({ color, size }) => {
             if (route.name === 'Feed') {

@@ -12,7 +12,7 @@ import type {
   AuthUserDetails,
   initialAuthType,
   LoginFields,
-  ProfileUpdateFields,
+  // ProfileUpdateFields,
   RegisterFields,
 } from '../types';
 
@@ -24,7 +24,7 @@ type AuthContextType = {
   handleLogout: () => void;
   handleFetchAuthUserData: () => void;
   handleFetchAuthUserStocks: () => void;
-  handleProfileUpdate: (fields: ProfileUpdateFields) => void;
+  // handleProfileUpdate: (fields: ProfileUpdateFields) => void;
   handleRegister: (fields: RegisterFields) => void;
   // handleDeleteMood: (mood: MoodOptionWithTimestamp) => void;
 };
@@ -102,7 +102,7 @@ const AuthContext = createContext<AuthContextType>({
   handleLogin: () => {},
   handleLogout: () => {},
   handleFetchAuthUserData: () => {},
-  handleProfileUpdate: () => {},
+  // handleProfileUpdate: () => {},
   handleFetchAuthUserStocks: () => {},
   handleRegister: () => {},
 });
@@ -226,13 +226,11 @@ export const AuthProvider: React.FC = ({
       }
 
       await setAuthToken(response.data?.token);
-      // console.log(response.data);
 
       await setAuthUserData(response.data?.user);
       setIsLoggedIn(true);
       setLoading(false);
     } catch (error: Object | any) {
-      console.error(error?.content);
       setErrors(error?.content);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -240,8 +238,6 @@ export const AuthProvider: React.FC = ({
 
   const handleLogout = async () => {
     try {
-      console.log('logout');
-
       await AsyncStorage.removeItem(authTokenKey);
       setIsLoggedIn(false);
     } catch (error: Object | any) {
@@ -249,6 +245,8 @@ export const AuthProvider: React.FC = ({
       setErrors(error);
     }
   };
+
+  // const {errors, isLoggedIn, }= authUser;
 
   return (
     <AuthContext.Provider

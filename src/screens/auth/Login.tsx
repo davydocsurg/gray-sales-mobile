@@ -30,9 +30,9 @@ const Login = ({ navigation }: any) => {
 
       return Alert.alert(`${authUser.errors}`);
     }
-    setLoading(false);
 
     resetForm();
+    setLoading(false);
 
     return navigation.navigate(routes.FEED);
   };
